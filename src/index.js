@@ -8,12 +8,25 @@ const number = document.querySelector("span");
 
 // data를 바꿔주는 function
 // reducer와 modifier가 return 하는 것이 application의 data가 됨.
-const countModifier = (state = 0) => {
-  return state;
+// argument의 count는 디폴트 0에서 시작, dispatch 할 때마다 값이 변함. 현재의 state로.
+const countModifier = (count = 0, action) => {
+  if (action.type === "Add") {
+    return count + 1;
+  } else if (action.type === "Minus") {
+    return count - 1;
+  } else {
+    return count;
+  }
 };
 
 const countStore = createStore(countModifier);
-console.log(countStore.getState());
 
-// application에서 유일하게 바뀌는 코드
-// let count = 0;
+// countModifier에 data를 보내는 방법
+countStore.dispatch({ type: "Add" });
+countStore.dispatch({ type: "Add" });
+countStore.dispatch({ type: "Add" });
+countStore.dispatch({ type: "Add" });
+countStore.dispatch({ type: "Add" });
+countStore.dispatch({ type: "Minus" });
+
+console.log(countStore.getState());
