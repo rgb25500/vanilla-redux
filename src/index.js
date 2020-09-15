@@ -1,47 +1,38 @@
-// vanilla로 시작할 것이므로 일단 다 지우고 시작!
-
 import { createStore } from "redux";
 
-const add = document.getElementById("add");
-const minus = document.getElementById("minus");
-const number = document.querySelector("span");
+const form = document.querySelector("form");
+const input = document.querySelector("input");
+const ul = document.querySelector("ul");
 
-number.innerText = 0;
+const ADD_TODO = "ADD_TODO";
+const DELETE_TODO = "DELETE_TODO";
 
-const ADD = "ADD";
-const MINUS = "MINUS";
-
-// data를 바꿔주는 function
-// reducer와 modifier가 return 하는 것이 application의 data가 됨.
-// argument의 count는 디폴트 0에서 시작, dispatch 할 때마다 값이 변함. 현재의 state로.
-const countModifier = (count = 0, action) => {
-  // console.log(count, action);
+const reducer = (state = [], action) => {
+  console.log(action);
   switch (action.type) {
-    case ADD:
-      return count + 1;
-    case MINUS:
-      return count - 1;
+    case ADD_TODO:
+      return [];
+    case DELETE_TODO:
+      return [];
     default:
-      return count;
+      return state;
   }
 };
 
-const countStore = createStore(countModifier);
-// console.log(countStore);
+const store = createStore(reducer);
 
-const onChange = () => {
-  number.innerText = countStore.getState();
+// const createToDo = (toDo) => {
+//   const li = document.createElement("li");
+//   li.innerText = toDo;
+//   ul.appendChild(li);
+// };
+
+const onSubmit = (e) => {
+  e.preventDefault();
+  const toDo = input.value;
+  input.value = "";
+  //   createToDo(toDo);   dispatch 시킬 것임.
+  store.dispatch({ type: ADD_TODO, text: toDo });
 };
 
-countStore.subscribe(onChange);
-
-add.addEventListener("click", () => {
-  // countModifier에 data를 보내는 방법
-  countStore.dispatch({ type: ADD });
-});
-
-minus.addEventListener("click", () => {
-  countStore.dispatch({ type: MINUS });
-});
-
-// console.log(countStore.getState());
+form.addEventListener("submit", onSubmit);
