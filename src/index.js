@@ -11,21 +11,19 @@ const reducer = (state = [], action) => {
   console.log(action);
   switch (action.type) {
     case ADD_TODO:
-      return [];
+      return [...state, { text: action.text, id: Date.now() }]; // 과거의 state와 새로운 TODO를 갖고 있음.
     case DELETE_TODO:
       return [];
     default:
       return state;
   }
 };
+// reducer는 새로운 state objects를 return한다.
+// return state.push(action.text) 이렇게 변형시키지 않고 새로운 array를 만듬
 
 const store = createStore(reducer);
 
-// const createToDo = (toDo) => {
-//   const li = document.createElement("li");
-//   li.innerText = toDo;
-//   ul.appendChild(li);
-// };
+store.subscribe(() => console.log(store.getState()));
 
 const onSubmit = (e) => {
   e.preventDefault();
