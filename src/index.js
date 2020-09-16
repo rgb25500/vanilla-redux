@@ -25,7 +25,8 @@ const reducer = (state = [], action) => {
     case ADD_TODO:
       return [{ text: action.text, id: Date.now() }, ...state]; // 과거의 state와 새로운 TODO를 갖고 있음.
     case DELETE_TODO:
-      return [];
+      return state.filter((toDo) => toDo.id !== action.id);
+    // action은 id와 함께 넘어옴.
     default:
       return state;
   }
@@ -44,7 +45,7 @@ const dispatchAddToDo = (text) => {
 
 const dispatchDeleteToDo = (e) => {
   // console.log("delete");
-  const id = e.target.parentNode.id; // 클릭되는 버튼 target
+  const id = parseInt(e.target.parentNode.id); // 클릭되는 버튼 target
   store.dispatch(deleteToDo(id));
 };
 
