@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 
 /*
   >> Hook
@@ -10,7 +11,8 @@ import React, { useState } from "react";
   text와 setText를 반환함.
 */
 
-function Home() {
+function Home({ toDos }) {
+  //   console.log("props", props);
   const [text, setText] = useState("");
   function onChange(e) {
     setText(e.target.value);
@@ -27,10 +29,27 @@ function Home() {
         <input type="text" value={text} onChange={onChange}></input>
         <button>Add</button>
       </form>
-      <ul></ul>
+      <ul>{JSON.stringify(toDos)}</ul>
     </>
   );
 }
 
-export default Home;
+// This connect function allows you to intercept the props that are gonna go to your Home
+// 여기서 무엇을 return하던 component의 props에 추가 됨!
+/*
+function getCurrentState(state, ownProps) {
+  console.log("state", state);
+  console.log("ownProps", ownProps);
+  // state : store에서 가져온 state
+  // ownProps : Home에게 준 props
+  // return { name: true }; // react-router로부터 받은 props 에다가 {name : true} 도 있음..
+}
+*/
+
+// Redux state로부터 Home component에 prop으로써 전달한다는 의미
+function mapStateToProps(state) {
+  return { toDos: state };
+}
+
+export default connect(mapStateToProps)(Home);
 // export default () => "Home";
