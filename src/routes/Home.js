@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { actionCreators } from "../store";
 
 /*
   >> Hook
@@ -11,7 +12,7 @@ import { connect } from "react-redux";
   text와 setText를 반환함.
 */
 
-function Home({ toDos }) {
+function Home({ toDos, addToDo }) {
   //   console.log("props", props);
   const [text, setText] = useState("");
   function onChange(e) {
@@ -19,7 +20,8 @@ function Home({ toDos }) {
   }
   function onSubmit(e) {
     e.preventDefault();
-    console.log(text);
+    addToDo(text);
+    // console.log(text);
     setText("");
   }
   return (
@@ -51,5 +53,13 @@ function mapStateToProps(state) {
   return { toDos: state };
 }
 
-export default connect(mapStateToProps)(Home);
+function mapDispatchToProps(dispatch) {
+  // console.log(dispatch); // object return error는 무시해도 됨.
+  return {
+    addToDo: (text) => dispatch(actionCreators.addToDo(text)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
+// export default connect(mapStateToProps)(Home);
 // export default () => "Home";
