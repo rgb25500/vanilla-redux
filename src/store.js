@@ -1,7 +1,7 @@
-import { createStore } from "redux";
-import { createAction, createReducer } from "@reduxjs/toolkit";
+// import { createStore } from "redux";
+import { configureStore, createAction, createReducer } from "@reduxjs/toolkit";
 
-// 4.2 : createAction
+// 4.1 : createAction
 // const ADD = "ADD";
 // const DELETE = "DELETE";
 
@@ -27,7 +27,7 @@ console.log(addToDo, deleteToDo); // function
 console.log(addToDo.type, deleteToDo.type); // text
 console.log(addToDo(), deleteToDo()); // object
 
-// 4.3 : createReducer
+// 4.2 : createReducer
 // const reducer = (state = [], action) => {
 //   switch (action.type) {
 //     // case ADD:
@@ -55,7 +55,9 @@ const reducer = createReducer([], {
   },
 });
 
-const store = createStore(reducer);
+// 4.3 : configureStore
+// const store = createStore(reducer);
+const store = configureStore({ reducer });
 
 export const actionCreators = {
   addToDo,
