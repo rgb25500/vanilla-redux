@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { actionCreators } from "../store";
+import { add } from "../store";
 import ToDo from "../components/ToDo";
 
 /*
@@ -61,7 +61,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   // console.log(dispatch); // object return error는 무시해도 됨.
   return {
-    addToDo: (text) => dispatch(actionCreators.addToDo(text)),
+    addToDo: (text) => dispatch(add(text)),
   };
 }
 

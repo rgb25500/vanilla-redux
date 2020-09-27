@@ -1,24 +1,12 @@
-// import { createStore } from "redux";
-import { configureStore, createAction, createReducer } from "@reduxjs/toolkit";
+import {
+  configureStore,
+  createAction,
+  createReducer,
+  createSlice,
+} from "@reduxjs/toolkit";
 
-// 4.1 : createAction
-// const ADD = "ADD";
-// const DELETE = "DELETE";
-
-// const addToDo = (text) => {
-//   return {
-//     type: ADD,
-//     text,
-//   };
-// };
-
-// const deleteToDo = (id) => {
-//   return {
-//     type: DELETE,
-//     id: parseInt(id),
-//   };
-// };
-
+// 4.4 : createSlice
+/* 
 // createAction shortcut
 const addToDo = createAction("ADD");
 const deleteToDo = createAction("DELETE");
@@ -26,21 +14,6 @@ const deleteToDo = createAction("DELETE");
 console.log(addToDo, deleteToDo); // function
 console.log(addToDo.type, deleteToDo.type); // text
 console.log(addToDo(), deleteToDo()); // object
-
-// 4.2 : createReducer
-// const reducer = (state = [], action) => {
-//   switch (action.type) {
-//     // case ADD:
-//     case addToDo.type:
-//       console.log(action);
-//       return [{ text: action.payload, id: Date.now() }, ...state];
-//     // case DELETE:
-//     case deleteToDo.type:
-//       return state.filter((toDo) => toDo.id !== action.payload);
-//     default:
-//       return state;
-//   }
-// };
 
 // createReducer shortcut
 const reducer = createReducer([], {
@@ -54,14 +27,30 @@ const reducer = createReducer([], {
     return state.filter((toDo) => toDo.id !== action.payload);
   },
 });
+*/
 
-// 4.3 : configureStore
-// const store = createStore(reducer);
-const store = configureStore({ reducer });
+const toDos = createSlice({
+  // options
+  name: "toDosReducer",
+  initialState: [],
+  reducers: {
+    // action을 생성하기 보다는, addToDo를 작성함.
+    add: (state, action) => {
+      state.push({ text: action.payload, id: Date.now() });
+    },
+    remove: (state, action) =>
+      state.filter((toDo) => toDo.id !== action.payload),
+  },
+});
 
-export const actionCreators = {
-  addToDo,
-  deleteToDo,
-};
+// const store = configureStore({ reducer });
+// toDos의 reducer를 export해서 store의 reducer를 다시 설정해줌.
+const store = configureStore({ reducer: toDos.reducer });
+
+// toDos.actions로부터 add와 remove라는 actions를 export 할 수 있다.
+console.log(toDos.actions);
+export const { add, remove } = toDos.actions;
 
 export default store;
+
+// actionCreators가 더 이상 존재하지 않기 떄문에 Home.js, ToDo.js로 가서 코드 수정!
